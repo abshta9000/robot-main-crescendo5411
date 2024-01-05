@@ -4,8 +4,8 @@ package org.robotalons.crescendo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.TimedRobot;
 
+import org.littletonrobotics.junction.LoggedRobot;
 // ---------------------------------------------------------------[Robot Class]-------------------------------------------------------------//
 /**
  * 
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * 
  * @see RobotContainer
  */
-public final class Robot extends TimedRobot  {
+public final class Robot extends LoggedRobot  {
   // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
 
   // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
