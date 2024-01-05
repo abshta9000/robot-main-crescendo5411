@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import org.littletonrobotics.junction.LoggedRobot;
-// ---------------------------------------------------------------[Robot Class]-------------------------------------------------------------//
+// -----------------------------------------------------------------[Robot]-------------------------------------------------------------//
 /**
  * 
  * 
