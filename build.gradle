@@ -25,6 +25,8 @@ repositories {
         }
     }
 
+    /** 
+    Talon-Library is not a dependency until fix can be made
     maven {
          url = uri("https://maven.pkg.github.com/FRC5411/utility-main-talonLib")
          credentials {
@@ -32,6 +34,7 @@ repositories {
              password = "$System.env.GITHUB_TOKEN"
          }
     }
+    */
 }
 
 deploy {
@@ -70,7 +73,8 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha1'
-    implementation group: 'org.talonrobotics', name: 'talonlib', version: '1.0.0-SNAPSHOT'    
+    
+    //implementation group: 'org.talonrobotics', name: 'talonlib', version: '1.0.0-SNAPSHOT'    
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
