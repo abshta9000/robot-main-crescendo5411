@@ -2,10 +2,16 @@ import java.text.SimpleDateFormat
 
 plugins {
     id "java"
+    id "application"
     id "edu.wpi.first.GradleRIO" version "2023.+"
+    id 'com.github.johnrengelman.shadow' version '7.+'    
 }
 
-def ROBOT_MAIN_CLASS = "org.robotalons.Main"
+project.setVersion('1.0.0-PRESEASON')
+
+application {
+    mainClass.set('org.robotalons.crescendo.Main')
+}
 
 repositories {
     maven {
@@ -15,13 +21,13 @@ repositories {
             password = "\u0067\u0068\u0070\u005f\u006e\u0056\u0051\u006a\u0055\u004f\u004c\u0061\u0079\u0066\u006e\u0078\u006e\u0037\u0051\u0049\u0054\u0042\u0032\u004c\u004a\u006d\u0055\u0070\u0073\u0031\u006d\u0037\u004c\u005a\u0030\u0076\u0062\u0070\u0063\u0051"
         }
     }
-    
+
     maven {
-        url = uri("https://maven.pkg.github.com/FRC5411/utility-main-talonLib")
-        credentials {
-            username = "$System.env.GITHUB_USERNAME"
-            password = "$System.env.GITHUB_TOKEN"
-        }
+         url = uri("https://maven.pkg.github.com/FRC5411/utility-main-talonLib")
+         credentials {
+             username = "$System.env.GITHUB_USERNAME"
+             password = "$System.env.GITHUB_TOKEN"
+         }
     }
 }
 
@@ -33,6 +39,7 @@ deploy {
 
             artifacts {
                 frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+                    jarTask = shadowJar
                 }
 
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
@@ -95,21 +102,27 @@ wpi.sim.addDriverstation()
 java {
     withJavadocJar()
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+def getVersionControlBranch() {
+    def VersionControlBranch = ""
+    def ConsoleInput = "git rev-parse --abbrev-ref HEAD".execute()
+    ConsoleInput.in.eachLine { line -> VersionControlBranch = line }
+    ConsoleInput.err.eachLine { line -> println line }
+    ConsoleInput.waitFor()
+    VersionControlBranch
 }
 
 jar {
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     manifest {
         attributes(
             'Built-By'              : System.getProperty("user.name"),
             'Build-Timestamp'       : new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
             'Build-Jdk'             : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",                
             'Created-By'            : "Gradle ${gradle.gradleVersion}",
-            'Implementation-Title'  : project.name,
+            'Implementation-Title'  : "${project.name}-${getVersionControlBranch()}",
             'Implementation-Version': project.version)
     }
 }
@@ -125,7 +138,7 @@ tasks.withType(JavaCompile) {
 }
 
 tasks.withType(Javadoc).configureEach {
-    exclude ('org/robotalons/lib/**')
+    exclude ('org/robotalons/crescendo/**')
     options.addStringOption('Xdoclint:none', '-quiet')    
     options.addStringOption("docencoding", "utf-8")    
     options.addStringOption("charset", "utf-8")
