@@ -5,28 +5,16 @@ on:
 
 jobs:
   build:
-
     name: Build
-
     runs-on: ubuntu-latest
-
     permissions:
       packages: read
-
     container: wpilib/roborio-cross-ubuntu:2024-22.04
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-          with:
-          java-version: '16'
-          distribution: 'temurin'
-          server-id: github
-          settings-path: ${{ github.workspace }} 
-
+        uses: actions/checkout@v2
       - name: Grant execute permission
         run: chmod +x gradlew
-        
       - name: Build robot code
         run: ./gradlew build
     env:
