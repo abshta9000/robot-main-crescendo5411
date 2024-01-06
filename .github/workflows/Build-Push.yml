@@ -27,3 +27,6 @@ jobs:
       with:
         arguments: build
         github-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_USERNAME: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
