@@ -6,10 +6,12 @@ plugins {
     id "java"
     id "application"
     id "com.diffplug.spotless" version "6.23.+"
-    id "edu.wpi.first.GradleRIO" version "2024.1.1"
+    id "edu.wpi.first.GradleRIO" version "2024.+"
+    id "com.peterabeles.gversion" version "1.+"
     id 'com.github.johnrengelman.shadow' version '7.+'
 }
 
+project.setGroup('org.talonrobotics')
 project.setVersion('1.0.0-COMPETITION')
 
 application {
@@ -64,6 +66,12 @@ def includeDesktopSupport = true
 configurations.all {
     exclude group: "edu.wpi.first.wpilibj"
 }
+
+task(checkAkitInstall, dependsOn: "classes", type: JavaExec) {
+    mainClass = "org.littletonrobotics.junction.CheckInstall"
+    classpath = sourceSets.main.runtimeClasspath
+}
+compileJava.finalizedBy checkAkitInstall
 
 dependencies {
     implementation wpi.java.deps.wpilib()
@@ -161,4 +169,14 @@ tasks.withType(Javadoc).configureEach {
     options.addStringOption("charset", "utf-8")
     options.addStringOption("encoding", "utf-8")
     destinationDir = layout.projectDirectory.dir("..").dir("docs").asFile
+}
+
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+  srcDir       = "src/main/java/"
+  classPackage = "org.robotalons.crescendo"
+  className    = "Metadata"
+  dateFormat   = "yyyy-MM-dd HH:mm:ss z"
+  timeZone     = "America/Chicago"
+  indent       = "  "
 }

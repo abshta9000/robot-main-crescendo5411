@@ -162,3 +162,5 @@ out/
 # Javascript Suggestions
 .hintrc
 
+**/BuildMetadata.java
+
