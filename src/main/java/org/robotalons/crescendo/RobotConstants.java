@@ -2,8 +2,6 @@
 package org.robotalons.crescendo;
 
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj.RobotBase;
 // ------------------------------------------------------------[Robot Constants]-----------------------------------------------------------//
 /**
@@ -26,7 +24,6 @@ public final class RobotConstants {
 
     public static final class Logging {
         public static final String LOGGING_DEPOSIT_FOLDER = ("src\\main\\java\\main\\deploy\\logs");
-        public static final Logger LOGGING_INSTANCE = Logger.getInstance();
         public static final Boolean LOGGING_TURBO_MODE = (false);
         public static final Boolean LOGGING_ENABLED = (false);
         public static final Boolean REPLAY_FROM_LOG = (false);
