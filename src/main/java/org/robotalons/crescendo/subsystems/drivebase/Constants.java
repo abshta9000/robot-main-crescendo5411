@@ -1,11 +1,8 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
 package org.robotalons.crescendo.subsystems.drivebase;
-
-
 import org.robotalons.lib.drivebase.DrivebaseModule;
-import org.robotalons.lib.drivebase.DrivebaseModuleContainer;
 
-import com.ctre.phoenixpro.hardware.Pigeon2;
+import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.util.Units;
 
@@ -40,13 +37,9 @@ public class Constants {
 
         public static final Pigeon2 GYROSCOPE = new Pigeon2(Ports.GYROSCOPE_ID);
         
-        public static final DrivebaseModuleContainer FRONT_LEFT_CONTAINER = null;
         public static final DrivebaseModule FRONT_LEFT_MODULE = null;        
-        public static final DrivebaseModuleContainer FRONT_RIGHT_CONTAINER = null;
-        public static final DrivebaseModule FRONT_RIGHT_MODULE = null;
-        public static final DrivebaseModuleContainer REAR_LEFT_CONTAINER = null;           
+        public static final DrivebaseModule FRONT_RIGHT_MODULE = null;        
         public static final DrivebaseModule REAR_LEFT_MODULE = null;         
-        public static final DrivebaseModuleContainer REAR_RIGHT_CONTAINER = null;
         public static final DrivebaseModule REAR_RIGHT_MODULE = null;
     }
 }

@@ -1,12 +1,13 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
 package org.robotalons.lib.drivebase;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Num;
 
 import java.io.Closeable;
-// -------------------------------------------------------------[Robot Container]-----------------------------------------------------------//
+// ------------------------------------------------------------[Drivebase Module]-----------------------------------------------------------//
 /**
  *
  *
@@ -52,6 +53,12 @@ public interface DrivebaseModule extends Closeable {
      * @return Nat of system denotation
      */
     Nat<Num> getDenotation();
+
+    /**
+     * Provides an accurate {@link SwerveModulePosition position} of this module at the current time derived from sensor information.
+     * @return Position of system
+     */
+    SwerveModulePosition getPosition();
 
     /**
      * Provides a {@link SwerveModuleState state} of the device's 'set point', or reference states
