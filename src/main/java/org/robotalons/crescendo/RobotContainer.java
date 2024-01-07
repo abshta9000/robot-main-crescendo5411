@@ -4,19 +4,16 @@ package org.robotalons.crescendo;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 
 // -------------------------------------------------------------[Robot Container]-----------------------------------------------------------//
-
 /**
  *
  *
- * <h1>RobotContainer </h1>
+ * <h1>RobotContainer</h1>
  *
- * <
- *
- * <p>Utility class which defines all modes of robot's event-cycle throughout it's lifetime.>
+ * <p>Utility class which defines all modes of robot's event-cycle throughout it's lifetime.
  */
 public final class RobotContainer {
     // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
-    public static RobotContainer INSTANCE = (null);
+    private static RobotContainer INSTANCE = (null);
 
     // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
     private RobotContainer() {}
@@ -26,6 +23,10 @@ public final class RobotContainer {
     // --------------------------------------------------------------[Mutators]---------------------------------------------------------------//
 
     // --------------------------------------------------------------[Accessors]--------------------------------------------------------------//
+    /**
+     * Retrieves the existing instance of this static utility class
+     * @return Utility class's instance
+     */
     public static synchronized RobotContainer getInstance() {
         if (java.util.Objects.isNull(INSTANCE)) {
             INSTANCE = new RobotContainer();
