@@ -29,6 +29,5 @@ public final class Constants {
 
     public static final class Ports {
         public static final Integer POWER_DISTRIBUTION_HUB = (0);
-        public static final Integer PATHPLANNER_SERVER = (6969);
     }
 }

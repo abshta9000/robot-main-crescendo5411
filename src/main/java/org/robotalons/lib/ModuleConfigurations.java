@@ -22,9 +22,9 @@ import com.revrobotics.RelativeEncoder;
  * <h1>SwerveConfigurations</h1>
  *
  * <p>Contains useful statically-implemented swerve configurations for supported CTRE and REV
- * hardware.
+ * hardware.</p>
  */
-public final class SwerveConfigurations {
+public final class ModuleConfigurations {
     // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
     /**
      * Configure a {@link com.ctre.phoenix.motorcontrol.can.WPI_TalonFX WPI_TalonFX} rotational
