@@ -12,11 +12,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 /**
  *
  *
- * <h1>Robot </h1>
+ * <h1>Robot</h1>
  *
- * <
- *
- * <p>Utility class which defines all modes of robot's event-cycle throughout it's lifetime.>
+ * <p>Utility class which defines all modes of robot's event-cycle throughout it's lifetime.
  *
  * @see RobotContainer
  */
@@ -24,7 +22,7 @@ public final class Robot extends LoggedRobot {
     // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
 
     // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
-    public static Robot INSTANCE = (null);
+    private static Robot INSTANCE = (null);
 
     // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
     private Robot() {}
@@ -97,6 +95,10 @@ public final class Robot extends LoggedRobot {
     }
 
     // --------------------------------------------------------------[Accessors]--------------------------------------------------------------//
+    /**
+     * Retrieves the existing instance of this static utility class
+     * @return Utility class's instance
+     */
     public static synchronized Robot getInstance() {
         if (java.util.Objects.isNull(INSTANCE)) {
             INSTANCE = new Robot();

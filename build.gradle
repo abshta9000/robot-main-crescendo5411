@@ -10,7 +10,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.+'
 }
 
-project.setVersion('1.0.0-PRESEASON')
+project.setVersion('1.0.0-COMPETITION')
 
 application {
     mainClass.set('org.robotalons.crescendo.Main')
@@ -111,7 +111,7 @@ spotless {
         }
         toggleOffOn()
         removeUnusedImports()
-        importOrder('java','com','org','edu', '', '\\#').wildcardsLast()
+        importOrder('edu','com','org','java', '', '\\#').wildcardsLast()
         setEncoding(StandardCharsets.UTF_8)
         indentWithSpaces(2)
     }

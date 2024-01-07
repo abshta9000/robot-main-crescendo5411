@@ -3,20 +3,18 @@ package org.robotalons.crescendo;
 
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 import edu.wpi.first.wpilibj.RobotBase;
-// ------------------------------------------------------------[Robot Constants]-----------------------------------------------------------//
+// ---------------------------------------------------------------[Constants]---------------------------------------------------------------//
 /**
  *
  *
- * <h1>Constants</h1>
+ * <h1>RobotConstants</h1>
  *
- * <
- *
- * <p>Contains all robot-wide constants, does not contain subsystem specific constants.>
+ * <p>Contains all robot-wide constants, does not contain subsystem specific constants.
  *
  * @see RobotContainer
  */
-public final class RobotConstants {
-    // -----------------------------------------------------------[Internal Classes]---------------------------------------------------------//
+public final class Constants {
+    // ------------------------------------------------------------[Internal]-------------------------------------------------------------//
 
     public static final class Subsystems {
         public static final Boolean IS_REAL_ROBOT = RobotBase.isReal();
