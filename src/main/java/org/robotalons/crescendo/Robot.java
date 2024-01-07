@@ -1,12 +1,33 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
 package org.robotalons.crescendo;
-
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
-import org.littletonrobotics.junction.LoggedRobot;
-
+import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
+
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.robotalons.crescendo.Constants.Logging;
+import org.robotalons.crescendo.Constants.Ports;
+import org.robotalons.crescendo.Constants.Subsystems;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 // -----------------------------------------------------------------[Robot]----------------------------------------------------------------//
 /**
@@ -20,7 +41,20 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public final class Robot extends LoggedRobot {
     // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
-
+    private static final RepeatCommand COMMAND_LOGGER = new RepeatCommand(new InstantCommand(() -> {
+      if(Logging.LOGGING_ENABLED) {
+        Threads.setCurrentThreadPriority((true), (99));
+        List<String> ClientNames, ClientAddresses;
+        ClientNames = new ArrayList<>(); ClientAddresses = new ArrayList<>();
+        Stream.of(NetworkTableInstance.getDefault().getConnections()).forEach((Connection) -> {
+          ClientNames.add(Connection.remote_id);
+          ClientAddresses.add(Connection.remote_ip);
+        });
+        Logger.recordOutput(("NTClient/Names"), ClientNames.toArray(String[]::new));
+        Logger.recordOutput(("NTClient/Addresses"), ClientAddresses.toArray(String[]::new));
+        Threads.setCurrentThreadPriority((true), (20));      
+      }
+    }));
     // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
     private static Robot INSTANCE = (null);
 
@@ -29,8 +63,52 @@ public final class Robot extends LoggedRobot {
 
     // ---------------------------------------------------------------[Robot]-----------------------------------------------------------------//
     @Override
+    @SuppressWarnings("ExtractMethodRecommender")
     public void robotInit() {
-        Shuffleboard.startRecording();
+      Logger.recordMetadata(("ProjectName"), ("Robotalons-Crescendo-Robot"));
+      if (Subsystems.IS_REAL_ROBOT) {
+        if(Logging.LOGGING_ENABLED) {
+          Logger.addDataReceiver(new WPILOGWriter(("/media/sda1/")));
+        }
+        Logger.addDataReceiver(new NT4Publisher());
+        LoggedPowerDistribution.getInstance((Ports.POWER_DISTRIBUTION_HUB), ModuleType.kRev);
+      } else {
+        if(Logging.REPLAY_FROM_LOG) {
+          setUseTiming(Logging.LOGGING_TURBO_MODE);
+          String logPath = LogFileUtil.findReplayLog();
+          Logger.setReplaySource(new WPILOGReader(logPath));
+          if(Logging.LOGGING_ENABLED) {
+            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, ("_sim"))));
+          }
+          } else {
+            if(Logging.LOGGING_ENABLED) {
+              Logger.addDataReceiver(new WPILOGWriter(Logging.LOGGING_DEPOSIT_FOLDER));
+            }
+            Logger.addDataReceiver(new NT4Publisher());        
+          }
+      }
+      HashMap<String,Integer> CommandInstanceCount = new HashMap<>();
+      BiConsumer<Command, Boolean> CommandFunctionLogger = 
+        (Command Operation, Boolean Active) -> new Thread(() -> {
+          String OperationName = Operation.getName();
+          int Count = CommandInstanceCount.getOrDefault(OperationName, (0)) + ((Active)? (1): (-1));
+          CommandInstanceCount.put(OperationName,Count);
+          Logger.recordOutput("UniqueOperations/" + OperationName + "_" + Integer.toHexString(Operation.hashCode()), Active);
+          Logger.recordOutput("Operations/" + OperationName, Count > (0));
+        });
+      CommandScheduler.getInstance().onCommandInitialize(
+        (Command Command) -> CommandFunctionLogger.accept(Command, (true)));
+      CommandScheduler.getInstance().onCommandInterrupt(
+        (Command Command) -> CommandFunctionLogger.accept(Command, (false)));
+      CommandScheduler.getInstance().onCommandFinish(
+        (Command Command) -> CommandFunctionLogger.accept(Command, (false)));    
+      Logger.start();
+      for (int ForwardingPort = (5800); ForwardingPort <= (5805); ForwardingPort++) {
+        PortForwarder.add(ForwardingPort, ("limelight.local"), ForwardingPort);
+      }
+      RobotContainer.getInstance();
+      COMMAND_LOGGER.schedule();    
+      Shuffleboard.startRecording();
     }
 
     @Override
