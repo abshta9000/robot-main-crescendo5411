@@ -22,13 +22,16 @@ public abstract class OdometryThread<SignalType extends Object> extends Thread i
   // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
   protected static Double OdometryFrequency = (250d);
   // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
+  /**
+   * Odometry Thread Constructor.
+   * @param OdometryLocker A Re-entrance Locker for Odometry
+   */
   protected OdometryThread(final Lock OdometryLocker) {
     ODOMETRY_LOCK = OdometryLocker;
   }
   // ---------------------------------------------------------------[Abstract]--------------------------------------------------------------//
   /**
    * Registers a new signal updated at a frequency with the frequency manager.
-   * @param Device Device from which the signal originates
    * @param Signal Signal source, which can be queried for new signal values
    * @return The {@link Queue} of signal values
    */
@@ -40,7 +43,7 @@ public abstract class OdometryThread<SignalType extends Object> extends Thread i
   public abstract void run();
 
   /**
-   * Closes this instance and all held resources immediately, but does not render the class unusable hence forth.
+   * Closes this instance and all held resources immediately, but does not render the class unusable hence forth and can be re-instantiated.
    */
   public abstract void close();
 

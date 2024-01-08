@@ -19,90 +19,90 @@ import org.littletonrobotics.junction.LoggedRobot;
  * @see RobotContainer
  */
 public final class Robot extends LoggedRobot {
-    // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
+  // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
 
-    // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
-    private static Robot INSTANCE = (null);
+  // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
+  private static Robot Instance = (null);
 
-    // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
-    private Robot() {}
+  // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
+  private Robot() {}
 
-    // ---------------------------------------------------------------[Robot]-----------------------------------------------------------------//
-    @Override
-    public void robotInit() {
-        Shuffleboard.startRecording();
-    }
+  // ---------------------------------------------------------------[Robot]-----------------------------------------------------------------//
+  @Override
+  public void robotInit() {
+      Shuffleboard.startRecording();
+  }
 
-    @Override
-    public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
-        SmartDashboard.updateValues();
-    }
+  @Override
+  public void robotPeriodic() {
+      CommandScheduler.getInstance().run();
+      SmartDashboard.updateValues();
+  }
 
-    // ------------------------------------------------------------[Simulation]---------------------------------------------------------------//
-    @Override
-    public void simulationInit() {}
+  // ------------------------------------------------------------[Simulation]---------------------------------------------------------------//
+  @Override
+  public void simulationInit() {}
 
-    @Override
-    public void simulationPeriodic() {}
+  @Override
+  public void simulationPeriodic() {}
 
-    // -------------------------------------------------------------[Disabled]----------------------------------------------------------------//
-    @Override
-    public void disabledInit() {
-        CommandScheduler.getInstance().cancelAll();
-    }
+  // -------------------------------------------------------------[Disabled]----------------------------------------------------------------//
+  @Override
+  public void disabledInit() {
+      CommandScheduler.getInstance().cancelAll();
+  }
 
-    @Override
-    public void disabledPeriodic() {}
+  @Override
+  public void disabledPeriodic() {}
 
-    @Override
-    public void disabledExit() {
-        super.disabledExit();
-    }
+  @Override
+  public void disabledExit() {
+      super.disabledExit();
+  }
 
-    // ------------------------------------------------------------[Autonomous]---------------------------------------------------------------//
-    @Override
-    public void autonomousInit() {}
+  // ------------------------------------------------------------[Autonomous]---------------------------------------------------------------//
+  @Override
+  public void autonomousInit() {}
 
-    @Override
-    public void autonomousPeriodic() {}
+  @Override
+  public void autonomousPeriodic() {}
 
-    @Override
-    public void autonomousExit() {}
+  @Override
+  public void autonomousExit() {}
 
-    // -----------------------------------------------------------[Teleoperated]--------------------------------------------------------------//
-    @Override
-    public void teleopInit() {}
+  // -----------------------------------------------------------[Teleoperated]--------------------------------------------------------------//
+  @Override
+  public void teleopInit() {}
 
-    @Override
-    public void teleopPeriodic() {}
+  @Override
+  public void teleopPeriodic() {}
 
-    @Override
-    public void teleopExit() {}
+  @Override
+  public void teleopExit() {}
 
-    // ----------------------------------------------------------------[Test]------------------------------------------------------------------//
-    @Override
-    public void testPeriodic() {}
+  // ----------------------------------------------------------------[Test]------------------------------------------------------------------//
+  @Override
+  public void testPeriodic() {}
 
-    @Override
-    public void testInit() {
-        super.testInit();
-    }
+  @Override
+  public void testInit() {
+      super.testInit();
+  }
 
-    @Override
-    public void testExit() {
-        super.testExit();
-    }
+  @Override
+  public void testExit() {
+      super.testExit();
+  }
 
-    // --------------------------------------------------------------[Accessors]--------------------------------------------------------------//
-    /**
-     * Retrieves the existing instance of this static utility class
-     * @return Utility class's instance
-     */
-    public static synchronized Robot getInstance() {
-        if (java.util.Objects.isNull(INSTANCE)) {
-            INSTANCE = new Robot();
-        }
-        return INSTANCE;
-    }
+  // --------------------------------------------------------------[Accessors]--------------------------------------------------------------//
+  /**
+   * Retrieves the existing instance of this static utility class
+   * @return Utility class's instance
+   */
+  public static synchronized Robot getInstance() {
+      if (java.util.Objects.isNull(Instance)) {
+          Instance = new Robot();
+      }
+      return Instance;
+  }
 }
