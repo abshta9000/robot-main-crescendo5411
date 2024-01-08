@@ -4,14 +4,14 @@ package org.robotalons.lib.odometry;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.locks.Lock;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
 
 // ----------------------------------------------------------[CTRE Odometry Thread]----------------------------------------------------------//
 /**

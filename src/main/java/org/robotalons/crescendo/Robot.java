@@ -2,11 +2,11 @@
 package org.robotalons.crescendo;
 
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
-import org.littletonrobotics.junction.LoggedRobot;
-
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import org.littletonrobotics.junction.LoggedRobot;
 
 // -----------------------------------------------------------------[Robot]----------------------------------------------------------------//
 /**

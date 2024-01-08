@@ -1,11 +1,11 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
 package org.robotalons.lib.odometry;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
-import java.util.concurrent.locks.Lock;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
 // ------------------------------------------------------------[Odometry Thread]-----------------------------------------------------------//
 /**
  *

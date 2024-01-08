@@ -3,14 +3,14 @@ package org.robotalons.lib.odometry;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 import edu.wpi.first.wpilibj.Notifier;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.function.DoubleSupplier;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.function.DoubleSupplier;
-import java.util.concurrent.locks.Lock;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.List;
 
 // ----------------------------------------------------------[REV Odometry Thread]----------------------------------------------------------//
 /**
