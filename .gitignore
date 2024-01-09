@@ -162,5 +162,11 @@ out/
 # Javascript Suggestions
 .hintrc
 
+#Gradle Version Plugin
 **/Metadata.java
 
+#NetworkTables & Simulation  Data
+**/networktables.json
+**/simgui-ds.json
+**/simgui-window.json
+**/simgui.json
