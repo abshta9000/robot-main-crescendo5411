@@ -2,35 +2,37 @@
 package org.robotalons.crescendo.subsystems.drivebase;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Twist2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Timer;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.robotalons.crescendo.subsystems.drivebase.Constants.Devices;
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
+import org.littletonrobotics.junction.Logger;
+import org.robotalons.crescendo.subsystems.drivebase.Constants.Devices;
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Objects;
+import org.robotalons.lib.odometry.LocalADStarAK;
 import org.robotalons.lib.motion.DrivebaseModule;
 import org.robotalons.lib.motion.Gyroscope;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.auto.AutoBuilder;
 
-import java.io.Closeable;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+import java.io.Closeable;
+import java.util.List;
 // -------------------------------------------------------------[Robot Container]-----------------------------------------------------------//
 /**
  *
@@ -42,7 +44,6 @@ import java.util.stream.IntStream;
  * @see SubsystemBase
  * @see {@link org.robotalons.crescendo.RobotContainer RobotContainer} 
  */
-@SuppressWarnings("unused")
 public final class DrivebaseSubsystem extends SubsystemBase implements Closeable {
   // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
   private static final SwerveDrivePoseEstimator POSE_ESTIMATOR;
@@ -53,6 +54,7 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
   private static DrivebaseSubsystem Instance;
   private static Rotation2d Odometry_Rotation;
   private static Pose2d Odometry_Pose;  
+  private static Boolean Module_Locking;      
   private static Boolean Path_Flipped;  
   private static Double Current_Time;
   // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
@@ -106,13 +108,21 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
         new ReplanningConfig(
           (true),
           (true)
-          )), 
+        )), 
       () -> Path_Flipped,
       Instance);
-      Pathfinding.setPathfinder(null);
+      Pathfinding.setPathfinder(new LocalADStarAK());
+      PathPlannerLogging.setLogActivePathCallback(
+        (ActivePath) -> {
+          Logger.recordOutput(("Drivebase/Trajectory"), ActivePath.toArray(new Pose2d[ActivePath.size()]));
+      });
+      PathPlannerLogging.setLogTargetPoseCallback(
+        (TargetPose) -> {
+          Logger.recordOutput(("Drive/Setpoint"), TargetPose);
+      });
   }
   // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
-  public synchronized void periodic() {
+  public void periodic() {
     Objects.ODOMETRY_LOCKER.lock();
     MODULES.forEach(DrivebaseModule::update);
     GYROSCOPE.update();    
@@ -160,10 +170,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
     });
   }
 
-  public synchronized void simulationPeriodic() {
-    periodic();
-  }
-
   /**
    * Calculates the discretization timestep, {@code dt}, at this current time based on the FPGA clock.
    * @return Double representation of the time passed between now and the last timestep.
@@ -195,7 +201,7 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Mutates the goal states of the drivebase
    * @param Demand Chassis speeds object which represents the demand speeds of the drivebase
    */
-  public static void set(final ChassisSpeeds Demand) {
+  public static synchronized void set(final ChassisSpeeds Demand) {
     var ReferenceSpeeds = ChassisSpeeds.discretize(Demand, discretize());
     var ReferenceStates = KINEMATICS.toSwerveModuleStates(ReferenceSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -210,11 +216,25 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
       (Module) -> Module.set(new SwerveModuleState())
     ).toArray(SwerveModuleState[]::new);
   }
+
+  /**
+   * Stops all drivebase movement, if locking is enabled then all modules are 
+   * reset into an 'X' orientation.
+   */
+  public static synchronized void set() {
+    if(Module_Locking) {
+      KINEMATICS.resetHeadings(MODULES.stream().map((Module) -> 
+        Module.getMeasured().angle
+      ).toArray(Rotation2d[]::new));  
+    }
+    set(new ChassisSpeeds());
+  }
+
   /**
    * Mutates the current estimated pose of the robot
    * @param Pose Robot Pose in Meters
    */
-  public static void setDrivebasePose(final Pose2d Pose) {
+  public static synchronized void setDrivebasePose(final Pose2d Pose) {
     Odometry_Pose = Pose;
   }
   // --------------------------------------------------------------[Accessors]--------------------------------------------------------------//
@@ -222,7 +242,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current position of the drivebase in space
    * @return Pose2d of Robot drivebase
    */
-  @AutoLogOutput(key = "Drivebase/Pose")
   public static Pose2d getDrivebasePose() {
     return POSE_ESTIMATOR.getEstimatedPosition();
   }
@@ -231,7 +250,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current un-optimized reference ,'set-point' state of all modules on the drivebase
    * @return Array of module states
    */
-  @AutoLogOutput(key = "Drivebase/References")
   public static SwerveModuleState[] getModuleReferences() {
     return MODULES.stream().sequential().map(
         (Module) ->  Module.getReference()
@@ -242,7 +260,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current optimized reference ,'set-point' state of all modules on the drivebase
    * @return Array of module states
    */
-  @AutoLogOutput(key = "Drivebase/Optimized")
   public static SwerveModuleState[] getModuleOptimized() {
     return MODULES.stream().sequential().map(
         (Module) ->  Module.getOptimized()
@@ -253,7 +270,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current controller output state of all modules on the drivebase
    * @return Array of module states
    */
-  @AutoLogOutput(key = "Drivebase/Outputs")
   public static SwerveModuleState[] getControllerOutputs() {
     return MODULES.stream().sequential().map(
         (Module) ->  Module.getOutput()
@@ -264,7 +280,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current controller output state of all modules on the drivebase
    * @return Array of module states
    */
-  @AutoLogOutput(key = "Drivebase/Measurements")
   public static SwerveModuleState[] getModuleMeasurements() {
     return MODULES.stream().sequential().map(
         (Module) ->  Module.getMeasured()
@@ -275,7 +290,6 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
    * Provides the current controller output positions of all modules on the drivebase
    * @return Array of module positions
    */
-  @AutoLogOutput(key = "Drivebase/Positions")
   public static SwerveModulePosition[] getModulePositions() {
     return MODULES.stream().map(
         (Module) ->  Module.getPosition()
