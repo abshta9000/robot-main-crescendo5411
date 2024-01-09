@@ -162,6 +162,9 @@ out/
 # Javascript Suggestions
 .hintrc
 
+# Build Metadata
+**/BuildMetadata.java
+
 #NetworkTables & Simulation  Data
 **/networktables.json
 **/simgui-ds.json
