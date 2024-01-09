@@ -15,18 +15,18 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
-import org.littletonrobotics.junction.Logger;
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Devices;
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Objects;
 import org.robotalons.lib.odometry.LocalADStarAK;
 import org.robotalons.lib.motion.DrivebaseModule;
+import org.littletonrobotics.junction.Logger;
 import org.robotalons.lib.motion.Gyroscope;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -66,7 +66,8 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
     Odometry_Pose = new Pose2d();
     GYROSCOPE = Devices.GYROSCOPE;    
     Odometry_Rotation = GYROSCOPE.getYawRotation();   
-    Path_Flipped = (true); 
+    Module_Locking = (false);
+    Path_Flipped = (false); 
     Current_Time = Timer.getFPGATimestamp();
     MODULES = List.of(
       Devices.FRONT_LEFT_MODULE,
@@ -196,9 +197,16 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
       new Pose2d()
     );
   }
+  // --------------------------------------------------------------[Internal]---------------------------------------------------------------//
+
+  public enum OrientationMode {
+    OBJECT_ORIENTED,    
+    ROBOT_ORIENTED,
+    FIELD_ORIENTED,
+  }
   // --------------------------------------------------------------[Mutators]---------------------------------------------------------------//
   /**
-   * Mutates the goal states of the drivebase
+   * Drives the robot provided a chassis speeds demand
    * @param Demand Chassis speeds object which represents the demand speeds of the drivebase
    */
   public static synchronized void set(final ChassisSpeeds Demand) {
@@ -215,6 +223,34 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
     .map(
       (Module) -> Module.set(new SwerveModuleState())
     ).toArray(SwerveModuleState[]::new);
+  }
+
+  /**
+   * Drives the robot provided translation and rotational demands
+   * @param Translation Demand translation in two-dimensional space
+   * @param Rotation    Demand rotation in two-dimensional space
+   * @param Mode        Type of demand being made
+   * @param OpenLoop    Whether or not the demands 
+   */
+  public static synchronized void set(final Translation2d Translation, final Rotation2d Rotation, final OrientationMode Mode, final Boolean OpenLoop) {
+    switch(Mode) {
+      case OBJECT_ORIENTED:
+        //TODO: Object Orientation
+        break;      
+      case ROBOT_ORIENTED:
+        set(new ChassisSpeeds(
+          Translation.getX(), 
+          Translation.getY(), 
+          Rotation.getRadians()));      
+        break;
+      case FIELD_ORIENTED:
+        set(ChassisSpeeds.fromFieldRelativeSpeeds(
+          Translation.getX(), 
+          Translation.getY(), 
+          Rotation.getRadians(), 
+          GYROSCOPE.getYawRotation()));      
+        break;
+    }
   }
 
   /**
