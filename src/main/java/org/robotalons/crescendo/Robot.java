@@ -65,7 +65,11 @@ public final class Robot extends LoggedRobot {
     @Override
     @SuppressWarnings("ExtractMethodRecommender")
     public void robotInit() {
-      Logger.recordMetadata(("ProjectName"), ("Robotalons-Crescendo-Robot"));
+      Logger.recordMetadata(("ProjectName"), BuildMetadata.MAVEN_NAME);
+      Logger.recordMetadata(("BuildDate"), BuildMetadata.BUILD_DATE);
+      Logger.recordMetadata(("GitSHA"), BuildMetadata.GIT_SHA);
+      Logger.recordMetadata(("GitDate"), BuildMetadata.GIT_DATE);
+      Logger.recordMetadata(("GitBranch"), BuildMetadata.GIT_BRANCH);
       if (Subsystems.IS_REAL_ROBOT) {
         if(Logging.LOGGING_ENABLED) {
           Logger.addDataReceiver(new WPILOGWriter(("/media/sda1/")));
