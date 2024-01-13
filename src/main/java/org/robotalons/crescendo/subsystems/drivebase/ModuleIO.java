@@ -4,12 +4,12 @@
 
 package org.robotalons.crescendo.subsystems.drivebase;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.AutoLog;
 
-public interface  DrivebaseModuleIO {
+public interface  ModuleIO {
   /** Creates a new DrivebaseIO. */
-  @Autolog
-  public static class DrivebaseIOInputs() {
+  @AutoLog
+  public static class ModuleIOInputs{
 
     // idc what anshul said about using degrees for rotation telemetry
     // if both angular velocity and rotation use the same units it would make it much easier to understandd
@@ -19,9 +19,11 @@ public interface  DrivebaseModuleIO {
     public double fwdAngVelRadperSec = 69;
     public double fwdTempF = 69;
 
-    public double fwdVoltage = 69;
-    public double fwdRotationRad = 69;
-    public double fwdAngVelRadperSec = 69;
-    public double fwdTempF = 69;
+    public double aziVoltage = 69;
+    public double aziRotationRad = 69;
+    public double aziAngVelRadperSec = 69;
+    public double aziTempF = 69;
   }
+
+  public default void updateInputs(ModuleIOInputs inputs){} 
 }
