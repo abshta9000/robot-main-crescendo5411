@@ -20,10 +20,13 @@ public interface  ModuleIO {
     public double fwdTempF = 69;
 
     public double aziVoltage = 69;
+    public double aziAbsRotationRad = 69;
     public double aziRotationRad = 69;
     public double aziAngVelRadperSec = 69;
-    public double aziTempF = 69;
+    public double aziTempF = -1;
   }
 
   public default void updateInputs(ModuleIOInputs inputs){} 
+
+  public default void setVoltage(double forward, double azimuth){}
 }

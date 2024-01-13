@@ -20,17 +20,24 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @see DrivebaseSubsystem
  */
-public class Constants {
+public class DrivebaseConstants {
     // ------------------------------------------------------------[Internal]-------------------------------------------------------------//
     public static final class Measurements {
         public static final Double ROBOT_WHEEL_DIAMETER_METERS = Units.inchesToMeters((4));
         public static final Double ROBOT_WHEEL_PERIMETER_METERS = ROBOT_WHEEL_DIAMETER_METERS * Math.PI;
         public static final Double ROBOT_LENGTH_METERS = Units.inchesToMeters((29));        
         public static final Double ROBOT_WIDTH_METERS = Units.inchesToMeters((29));
-        public static final Double ROBOT_RADIUS_METERS = Math.hypot(ROBOT_LENGTH_METERS / (2.0), ROBOT_WIDTH_METERS / (2.0));      
+        public static final Double ROBOT_RADIUS_METERS = Math.hypot(ROBOT_LENGTH_METERS / (2.0), ROBOT_WIDTH_METERS / (2.0));     
+        
+        public static final Double ROBOT_MASS_KG = (69d); // TODO move later
 
         public static final Double ROBOT_MAXIMUM_LINEAR_VELOCITY = Units.feetToMeters((15.4));
         public static final Double ROBOT_MAXIMUM_ANGULAR_VELOCITY = ROBOT_MAXIMUM_LINEAR_VELOCITY / ROBOT_RADIUS_METERS;
+        public static final Double ROBOT_MAXIMUM_ANGULAR_MOMENTUM = 
+          Math.pow(ROBOT_WHEEL_DIAMETER_METERS/2,2) * // radius
+          ROBOT_MAXIMUM_ANGULAR_VELOCITY * // velocity
+          ROBOT_MASS_KG; // mass
+
 
         public static final Double ROBOT_TRANSLATION_KP = (0d);
         public static final Double ROBOT_TRANSLATION_KI = (0d);
@@ -39,6 +46,9 @@ public class Constants {
         public static final Double ROBOT_ROTATIONAL_KP = (0d);
         public static final Double ROBOT_ROTATIONAL_KI = (0d);
         public static final Double ROBOT_ROTATIONAL_KD = (0d);
+
+        public static final Double ROBOT_FWDMOTOR_GEARING = (69d);
+        public static final Double ROBOT_AZIMOTOR_GEARING = (69d);
     }
 
     public static final class Ports {

@@ -22,9 +22,9 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import org.littletonrobotics.junction.Logger;
-import org.robotalons.crescendo.subsystems.drivebase.Constants.Devices;
-import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
-import org.robotalons.crescendo.subsystems.drivebase.Constants.Objects;
+import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Devices;
+import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Measurements;
+import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Objects;
 import org.robotalons.lib.motion.DrivebaseModule;
 import org.robotalons.lib.motion.Gyroscope;
 import org.robotalons.lib.odometry.LocalADStarAK;
@@ -76,14 +76,14 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
       Devices.REAR_RIGHT_MODULE
     );    
     KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d( (Constants.Measurements.ROBOT_WIDTH_METERS)  / (2), 
-                         (Constants.Measurements.ROBOT_LENGTH_METERS) / (2)),
-      new Translation2d( (Constants.Measurements.ROBOT_WIDTH_METERS)  / (2),
-                        -(Constants.Measurements.ROBOT_LENGTH_METERS) / (2)),
-      new Translation2d(-(Constants.Measurements.ROBOT_WIDTH_METERS)  / (2),
-                         (Constants.Measurements.ROBOT_LENGTH_METERS) / (2)),
-      new Translation2d(-(Constants.Measurements.ROBOT_WIDTH_METERS)  / (2),
-                        -(Constants.Measurements.ROBOT_LENGTH_METERS) / (2)));
+      new Translation2d( (DrivebaseConstants.Measurements.ROBOT_WIDTH_METERS)  / (2), 
+                         (DrivebaseConstants.Measurements.ROBOT_LENGTH_METERS) / (2)),
+      new Translation2d( (DrivebaseConstants.Measurements.ROBOT_WIDTH_METERS)  / (2),
+                        -(DrivebaseConstants.Measurements.ROBOT_LENGTH_METERS) / (2)),
+      new Translation2d(-(DrivebaseConstants.Measurements.ROBOT_WIDTH_METERS)  / (2),
+                         (DrivebaseConstants.Measurements.ROBOT_LENGTH_METERS) / (2)),
+      new Translation2d(-(DrivebaseConstants.Measurements.ROBOT_WIDTH_METERS)  / (2),
+                        -(DrivebaseConstants.Measurements.ROBOT_LENGTH_METERS) / (2)));
     POSE_ESTIMATOR = new SwerveDrivePoseEstimator(
       KINEMATICS, 
       GYROSCOPE.getYawRotation(),
