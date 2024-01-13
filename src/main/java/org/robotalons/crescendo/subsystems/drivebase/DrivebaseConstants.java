@@ -53,7 +53,18 @@ public class DrivebaseConstants {
 
     public static final class Ports {
         public static final Integer GYROSCOPE_ID = (0);
-        public static final Integer PATHPLANNER_SERVER = (6969);        
+        public static final Integer PATHPLANNER_SERVER = (6969); 
+        
+        public static final Integer FWDMOTOR_FR_ID = (1);
+        public static final Integer FWDMOTOR_FL_ID = (2);
+        public static final Integer FWDMOTOR_BR_ID = (3);
+        public static final Integer FWDMOTOR_BL_ID = (4);
+
+        public static final Integer AZIMOTOR_FR_ID = (5);
+        public static final Integer AZIMOTOR_FL_ID = (6);
+        public static final Integer AZIMOTOR_BR_ID = (7);
+        public static final Integer AZIMOTOR_BL_ID = (8);
+
     }
 
     public static final class Objects {
