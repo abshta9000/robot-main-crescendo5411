@@ -25,8 +25,8 @@ import org.littletonrobotics.junction.Logger;
 import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Devices;
 import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Measurements;
 import org.robotalons.crescendo.subsystems.drivebase.DrivebaseConstants.Objects;
-import org.robotalons.lib.motion.DrivebaseModule;
-import org.robotalons.lib.motion.Gyroscope;
+import org.robotalons.lib.kinematics.Gyroscope;
+import org.robotalons.lib.motion.Module;
 import org.robotalons.lib.odometry.LocalADStarAK;
 
 import java.io.Closeable;
@@ -48,7 +48,7 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
   // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
   private static final SwerveDrivePoseEstimator POSE_ESTIMATOR;
   private static final SwerveDriveKinematics KINEMATICS;  
-  private static final List<DrivebaseModule> MODULES;  
+  private static final List<Module> MODULES;  
   private static final Gyroscope GYROSCOPE;  
   // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
   private static DrivebaseSubsystem Instance;
@@ -61,7 +61,7 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
   /**
    * Drivebase Subsystem Constructor.
    */
-  private DrivebaseSubsystem() {} static {
+  public DrivebaseSubsystem() {} static {
     Instance = new DrivebaseSubsystem();
     Odometry_Pose = new Pose2d();
     GYROSCOPE = Devices.GYROSCOPE;    
@@ -125,10 +125,10 @@ public final class DrivebaseSubsystem extends SubsystemBase implements Closeable
   // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
   public void periodic() {
     Objects.ODOMETRY_LOCKER.lock();
-    MODULES.forEach(DrivebaseModule::update);
+    MODULES.forEach(Module::update);
     GYROSCOPE.update();    
     if (DriverStation.isDisabled()) {
-      MODULES.forEach(DrivebaseModule::stop);
+      MODULES.forEach(Module::stop);
     }
     Objects.ODOMETRY_LOCKER.unlock();
     AtomicInteger DeltaCount = new AtomicInteger(

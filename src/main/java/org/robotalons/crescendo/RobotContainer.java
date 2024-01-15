@@ -1,6 +1,9 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
 package org.robotalons.crescendo;
 
+import org.robotalons.crescendo.subsystems.drivebase.DrivebaseSubsystem;
+import org.robotalons.crescendo.subsystems.drivebase.ModuleIOSparkMaxSim;
+
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 
 // -------------------------------------------------------------[Robot Container]-----------------------------------------------------------//
@@ -15,8 +18,12 @@ public final class RobotContainer {
   // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
   private static RobotContainer Instance = (null);
 
+  private DrivebaseSubsystem driveSub;
+
   // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
-  private RobotContainer() {}
+  private RobotContainer() {
+    driveSub = new DrivebaseSubsystem();
+  }
 
   // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
 

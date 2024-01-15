@@ -3,8 +3,8 @@ package org.robotalons.crescendo.subsystems.drivebase;
 import edu.wpi.first.math.util.Units;
 
 import org.robotalons.crescendo.Constants.Subsystems;
-import org.robotalons.lib.motion.DrivebaseModule;
-import org.robotalons.lib.motion.Gyroscope;
+import org.robotalons.lib.kinematics.Gyroscope;
+import org.robotalons.lib.motion.Module;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -55,15 +55,16 @@ public class DrivebaseConstants {
         public static final Integer GYROSCOPE_ID = (0);
         public static final Integer PATHPLANNER_SERVER = (6969); 
         
-        public static final Integer FWDMOTOR_FR_ID = (1);
-        public static final Integer FWDMOTOR_FL_ID = (2);
-        public static final Integer FWDMOTOR_BR_ID = (3);
-        public static final Integer FWDMOTOR_BL_ID = (4);
+        public static final Integer FWDMOTOR_FL_ID = (1);
+        public static final Integer FWDMOTOR_FR_ID = (2);
+        public static final Integer FWDMOTOR_RL_ID = (3);
+        public static final Integer FWDMOTOR_RR_ID = (4);
 
-        public static final Integer AZIMOTOR_FR_ID = (5);
-        public static final Integer AZIMOTOR_FL_ID = (6);
-        public static final Integer AZIMOTOR_BR_ID = (7);
-        public static final Integer AZIMOTOR_BL_ID = (8);
+        public static final Integer AZIMOTOR_FL_ID = (5);
+        public static final Integer AZIMOTOR_FR_ID = (6);
+        public static final Integer AZIMOTOR_RL_ID = (7);
+        public static final Integer AZIMOTOR_RR_ID = (8);
+        
 
     }
 
@@ -76,21 +77,25 @@ public class DrivebaseConstants {
         (Subsystems.IS_REAL_ROBOT)?
         (null):
         (null);
-      public static final DrivebaseModule FRONT_LEFT_MODULE = 
-        (Subsystems.IS_REAL_ROBOT)? 
-        (null): 
-        (null);        
-      public static final DrivebaseModule FRONT_RIGHT_MODULE = 
-        (Subsystems.IS_REAL_ROBOT)? 
-        (null): 
-        (null);           
-      public static final DrivebaseModule REAR_LEFT_MODULE = 
-        (Subsystems.IS_REAL_ROBOT)? 
-        (null): 
-        (null);       
-      public static final DrivebaseModule REAR_RIGHT_MODULE = 
-        (Subsystems.IS_REAL_ROBOT)? 
-        (null): 
-        (null);    
+      public static final Module FRONT_LEFT_MODULE = 
+        new ModuleIOSparkMaxSim();
+        // (Subsystems.IS_REAL_ROBOT)? 
+        // (null): 
+        // (null);        
+      public static final Module FRONT_RIGHT_MODULE = 
+        new ModuleIOSparkMaxSim();
+        // (Subsystems.IS_REAL_ROBOT)? 
+        // (null): 
+        // (null);           
+      public static final Module REAR_LEFT_MODULE = 
+        new ModuleIOSparkMaxSim();
+        // (Subsystems.IS_REAL_ROBOT)? 
+        // (null): 
+        // (null);       
+      public static final Module REAR_RIGHT_MODULE = 
+        new ModuleIOSparkMaxSim();
+        // (Subsystems.IS_REAL_ROBOT)? 
+        // (null): 
+        // (null);    
     }
 }
