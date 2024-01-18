@@ -5,7 +5,6 @@
 package org.robotalons.crescendo.subsystems.drivebase;
 // unfortunately most of this code is copied from cody since my understanding of tcb is very little
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
+import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
 import org.robotalons.crescendo.Constants.Simulation;
@@ -28,7 +28,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.DoubleSupplier;
 import java.util.stream.IntStream;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class SparkMaxSimModule extends Module{
   /** Creates a new DrivebaseModuleCANSparkMax. */
@@ -42,8 +41,8 @@ public class SparkMaxSimModule extends Module{
 
   private DoubleSupplier CurrentPosition;
 
-  private double aziRelativePositionRad = 0.0;
-  private double aziAbsolutePositionRad = Math.PI;
+  private double aziRelativePositionRad = 0;
+  private double aziAbsolutePositionRad = 0;
 
   private final Lock ODOMETRY_LOCK;
   private final Queue<Double> LINEAR_QUEUE;
@@ -125,13 +124,13 @@ public class SparkMaxSimModule extends Module{
       }
 
     Status.RotationalAbsolutePosition = Rotation2d.fromRadians(aziAbsolutePositionRad);
+    System.out.println(Status.RotationalAbsolutePosition);
     Status.RotationalRelativePosition = Rotation2d.fromRadians(aziRelativePositionRad);
     Status.RotationalVelocityRadiansSecond = CONSTANTS.ROTATIONAL_CONTROLLER.getAngularVelocityRadPerSec();
     Status.RotationalAppliedVoltage = aziAppliedVolts.getAsDouble();
 
 
     Status.LinearPositionRadians = (CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec() * Simulation.SIMULATION_LOOPPERIOD_SEC);
-
     Status.LinearVelocityRadiansSecond = CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec();
     Status.LinearAppliedVoltage = fwdAppliedVolts.getAsDouble();
 

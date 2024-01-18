@@ -41,7 +41,7 @@ public final class RobotContainer {
     Profiles.PILOT_PROFILES.forEach((Profile) -> {
       SendableDrivebasePilotChooser.addOption(Profile.getName(), Profile);
     });
-    SendableDrivebasePilotChooser.setDefaultOption(Profiles.PILOT_PROFILES.get((0)).getName(), Profiles.PILOT_PROFILES.get((0)));
+    SendableDrivebasePilotChooser.setDefaultOption(Profiles.PILOT_PROFILES.get((1)).getName(), Profiles.PILOT_PROFILES.get((1)));
     DrivebasePilotSelector = new LoggedDashboardChooser<>(("Drivebase Pilot Selector"), SendableDrivebasePilotChooser);
     try {
       var Field = DrivebasePilotSelector.getClass().getDeclaredField(("selectedValue"));

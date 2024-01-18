@@ -59,7 +59,8 @@ public final class Constants {
   public static final class Profiles { 
 
     public static final List<PilotProfile> PILOT_PROFILES = List.of(
-      Example.PROFILE
+      Example.PROFILE,
+      SimulationSparkMaxExample.PROFILE
     );
 
     public static final class PreferenceNames {
@@ -83,6 +84,21 @@ public final class Constants {
       public static final PilotProfile PROFILE = new PilotProfile(("John Doe"))
         .addPreference(PreferenceNames.TRANSLATIONAL_X_INPUT, () -> CONTROLLER.getRawAxis((1)))
         .addPreference(PreferenceNames.TRANSLATIONAL_Y_INPUT, () -> CONTROLLER.getRawAxis((0)))
+        .addPreference(PreferenceNames.ORIENTATION_INPUT, () -> CONTROLLER.getRawAxis((2)))
+        .addPreference(PreferenceNames.TRANSLATIONAL_X_DEADZONE, () -> (0.1))
+        .addPreference(PreferenceNames.TRANSLATIONAL_Y_DEADZONE, () -> (0.1))
+        .addPreference(PreferenceNames.ORIENTATION_DEADZONE, () -> (0.1))
+        .addKeybinding(KeybindingNames.MODULE_LOCKING_TOGGLE, CONTROLLER.a())
+        .addKeybinding(KeybindingNames.ORIENTATION_TOGGLE, CONTROLLER.b())
+        .addKeybinding(KeybindingNames.PATHFINDING_FLIP_TOGGLE, CONTROLLER.x());
+    }
+
+    public static final class SimulationSparkMaxExample {
+      public static final Integer CONTROLLER_PORT = (0);
+      public static final CommandXboxController CONTROLLER = new CommandXboxController(CONTROLLER_PORT);
+      public static final PilotProfile PROFILE = new PilotProfile(("Jim Sim"))
+        .addPreference(PreferenceNames.TRANSLATIONAL_X_INPUT, () -> -CONTROLLER.getRawAxis((1)))
+        .addPreference(PreferenceNames.TRANSLATIONAL_Y_INPUT, () -> -CONTROLLER.getRawAxis((0)))
         .addPreference(PreferenceNames.ORIENTATION_INPUT, () -> CONTROLLER.getRawAxis((2)))
         .addPreference(PreferenceNames.TRANSLATIONAL_X_DEADZONE, () -> (0.1))
         .addPreference(PreferenceNames.TRANSLATIONAL_Y_DEADZONE, () -> (0.1))

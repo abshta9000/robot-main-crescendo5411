@@ -9,8 +9,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.robotalons.crescendo.subsystems.drivebase.SparkMaxSimModule.ModuleConstants;
 import org.robotalons.lib.motion.actuators.Module;
@@ -68,6 +66,7 @@ public final class Constants {
             public static final Integer ROTATIONAL_CONTROLLER_ID = (1);
             public static final Integer ABSOLUTE_ENCODER_ID = (8);
             public static final Double ROTATIONAL_P_GAIN = (.001d);
+            
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
             public static final Double LINEAR_P_GAIN = (.001d);
@@ -212,7 +211,7 @@ public final class Constants {
 
     public static final class Devices {
       public static final Gyroscope GYROSCOPE = 
-        new PigeonGyroscope(Measurements.PHOENIX_DRIVE);
+        new GyroSim(false,Measurements.Modules.FL.CONSTANTS.ROTATIONAL_CONTROLLER);
       public static final Module FRONT_LEFT_MODULE = 
         new SparkMaxSimModule(Measurements.Modules.FL.CONSTANTS);     
       public static final Module FRONT_RIGHT_MODULE = 
