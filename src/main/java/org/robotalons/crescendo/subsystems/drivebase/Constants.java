@@ -65,11 +65,10 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (0);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (1);
             public static final Integer ABSOLUTE_ENCODER_ID = (8);
-            public static final Double ROTATIONAL_P_GAIN = (.001d);
-            
+            public static final Double ROTATIONAL_P_GAIN = (.0001d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
-            public static final Double LINEAR_P_GAIN = (.001d);
+            public static final Double LINEAR_P_GAIN = (.0001d);
             public static final Double LINEAR_I_GAIN = (0d);
             public static final Double LINEAR_D_GAIN = (0d);
             public static final Double LINEAR_KS_GAIN = (0d);
@@ -79,12 +78,12 @@ public final class Constants {
             static {
               CONSTANTS.LINEAR_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.LINEAR_GEAR_RATIO, // gearing
+                Measurements.LINEAR_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ROTATIONAL_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.ROTATION_GEAR_RATIO, // gearing
+                Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
@@ -100,10 +99,10 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (2);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (3);
             public static final Integer ABSOLUTE_ENCODER_ID = (9);
-            public static final Double ROTATIONAL_P_GAIN = (.001d);
+            public static final Double ROTATIONAL_P_GAIN = (.0001d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
-            public static final Double LINEAR_P_GAIN = (.001d);
+            public static final Double LINEAR_P_GAIN = (.0001d);
             public static final Double LINEAR_I_GAIN = (0d);
             public static final Double LINEAR_D_GAIN = (0d);
             public static final Double LINEAR_KS_GAIN = (0d);
@@ -113,12 +112,12 @@ public final class Constants {
             static {
               CONSTANTS.LINEAR_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.LINEAR_GEAR_RATIO, // gearing
+                Measurements.LINEAR_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ROTATIONAL_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.ROTATION_GEAR_RATIO, // gearing
+                Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
@@ -134,10 +133,10 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (4);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (5);
             public static final Integer ABSOLUTE_ENCODER_ID = (10);
-            public static final Double ROTATIONAL_P_GAIN = (.001d);
+            public static final Double ROTATIONAL_P_GAIN = (.0001d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
-            public static final Double LINEAR_P_GAIN = (.001d);
+            public static final Double LINEAR_P_GAIN = (.0001d);
             public static final Double LINEAR_I_GAIN = (0d);
             public static final Double LINEAR_D_GAIN = (0d);
             public static final Double LINEAR_KS_GAIN = (0d);
@@ -147,12 +146,12 @@ public final class Constants {
             static {
               CONSTANTS.LINEAR_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.LINEAR_GEAR_RATIO, // gearing
+                Measurements.LINEAR_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ROTATIONAL_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.ROTATION_GEAR_RATIO, // gearing
+                Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
@@ -168,10 +167,10 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (6);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (7);
             public static final Integer ABSOLUTE_ENCODER_ID = (11);
-            public static final Double ROTATIONAL_P_GAIN = (.001d);
+            public static final Double ROTATIONAL_P_GAIN = (.0001d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
-            public static final Double LINEAR_P_GAIN = (.001d);
+            public static final Double LINEAR_P_GAIN = (.0001d);
             public static final Double LINEAR_I_GAIN = (0d);
             public static final Double LINEAR_D_GAIN = (0d);
             public static final Double LINEAR_KS_GAIN = (0d);
@@ -181,12 +180,12 @@ public final class Constants {
             static {
               CONSTANTS.LINEAR_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.LINEAR_GEAR_RATIO, // gearing
+                Measurements.LINEAR_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ROTATIONAL_CONTROLLER = new FlywheelSim(
                 DCMotor.getNEO(1), // motor type
-                Module.Constants.ROTATION_GEAR_RATIO, // gearing
+                Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
               CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);

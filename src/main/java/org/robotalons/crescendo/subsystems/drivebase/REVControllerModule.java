@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 
+import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
 import org.robotalons.lib.motion.actuators.Module;
 
 import java.util.ArrayList;
@@ -118,9 +119,9 @@ public final class REVControllerModule extends Module {
   @Override
   public void update() {
     Status.LinearPositionRadians =
-        Units.rotationsToRadians(LINEAR_ENCODER.getPosition()) / CONSTANTS.LINEAR_GEAR_RATIO;
+        Units.rotationsToRadians(LINEAR_ENCODER.getPosition()) / Measurements.LINEAR_GEAR_RATIO;
     Status.LinearVelocityRadiansSecond =
-        Units.rotationsPerMinuteToRadiansPerSecond(LINEAR_ENCODER.getVelocity()) / CONSTANTS.LINEAR_GEAR_RATIO;
+        Units.rotationsPerMinuteToRadiansPerSecond(LINEAR_ENCODER.getVelocity()) / Measurements.LINEAR_GEAR_RATIO;
     Status.LinearAppliedVoltage = 
       CONSTANTS.LINEAR_CONTROLLER.getAppliedOutput() * CONSTANTS.LINEAR_CONTROLLER.getBusVoltage();
     Status.LinearCurrentAmperage = 
@@ -128,20 +129,20 @@ public final class REVControllerModule extends Module {
     Status.RotationalAbsolutePosition = 
       Rotation2d.fromDegrees(CONSTANTS.ABSOLUTE_ENCODER.getAbsolutePosition());
     Status.RotationalRelativePosition =
-        Rotation2d.fromRotations(ROTATIONAL_ENCODER.getPosition() / CONSTANTS.ROTATION_GEAR_RATIO);
+        Rotation2d.fromRotations(ROTATIONAL_ENCODER.getPosition() / Measurements.ROTATION_GEAR_RATIO);
     Status.RotationalVelocityRadiansSecond =
-        Units.rotationsPerMinuteToRadiansPerSecond(ROTATIONAL_ENCODER.getVelocity()) / CONSTANTS.ROTATION_GEAR_RATIO;
+        Units.rotationsPerMinuteToRadiansPerSecond(ROTATIONAL_ENCODER.getVelocity()) / Measurements.ROTATION_GEAR_RATIO;
     Status.RotationalAppliedVoltage = 
       CONSTANTS.ROTATIONAL_CONTROLLER.getAppliedOutput() * CONSTANTS.ROTATIONAL_CONTROLLER.getBusVoltage();
     Status.RotationalAppliedAmperage = 
       new double[] {CONSTANTS.ROTATIONAL_CONTROLLER.getOutputCurrent()};
     Status.OdometryLinearPositionsRadians =
       LINEAR_QUEUE.stream()
-        .mapToDouble((Double value) -> Units.rotationsToRadians(value) / CONSTANTS.ROTATION_GEAR_RATIO)
+        .mapToDouble((Double value) -> Units.rotationsToRadians(value) / Measurements.ROTATION_GEAR_RATIO)
         .toArray();
     Status.OdometryAzimuthPositions =
       ROTATIONAL_QUEUE.stream()
-        .map((Double value) -> Rotation2d.fromRotations(value / CONSTANTS.LINEAR_GEAR_RATIO))
+        .map((Double value) -> Rotation2d.fromRotations(value / Measurements.LINEAR_GEAR_RATIO))
         .toArray(Rotation2d[]::new);
     LINEAR_QUEUE.clear();
     ROTATIONAL_QUEUE.clear();

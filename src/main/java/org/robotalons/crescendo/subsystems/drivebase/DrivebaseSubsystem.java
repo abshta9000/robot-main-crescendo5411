@@ -69,7 +69,7 @@ public class DrivebaseSubsystem extends SubsystemBase implements Closeable {
   private DrivebaseSubsystem() {} static {
     Instance = new DrivebaseSubsystem();
     Odometry_Pose = new Pose2d();
-    GYROSCOPE = new PigeonGyroscope(Constants.Measurements.PHOENIX_DRIVE);
+    GYROSCOPE = new GyroSim(false,Measurements.Modules.FL.CONSTANTS.ROTATIONAL_CONTROLLER);
     Control_Mode = OrientationMode.ROBOT_ORIENTED;
     Odometry_Rotation = GYROSCOPE.getYawRotation();
     Module_Locking = (false);

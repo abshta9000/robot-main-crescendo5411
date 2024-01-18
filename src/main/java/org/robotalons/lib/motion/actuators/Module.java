@@ -69,8 +69,6 @@ public abstract class Module extends SubsystemBase implements Closeable {
    * <p>Describes a given {@link Module}'s measured constants that cannot otherwise be derived through its sensors and hardware.
    */
   public static class Constants {
-    public static Double LINEAR_GEAR_RATIO = (1d);
-    public static Double ROTATION_GEAR_RATIO = (1d);
     public Double POSITION_METERS = (0d);
     public Double WHEEL_RADIUS_METERS = (1d);
     public Double AZIMUTH_ENCODER_OFFSET = (0d);

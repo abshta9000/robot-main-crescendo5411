@@ -12,13 +12,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-
-import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-
 import org.robotalons.crescendo.Constants.Simulation;
+import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
 import org.robotalons.lib.motion.actuators.Module;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -124,7 +121,6 @@ public class SparkMaxSimModule extends Module{
       }
 
     Status.RotationalAbsolutePosition = Rotation2d.fromRadians(aziAbsolutePositionRad);
-    System.out.println(Status.RotationalAbsolutePosition);
     Status.RotationalRelativePosition = Rotation2d.fromRadians(aziRelativePositionRad);
     Status.RotationalVelocityRadiansSecond = CONSTANTS.ROTATIONAL_CONTROLLER.getAngularVelocityRadPerSec();
     Status.RotationalAppliedVoltage = aziAppliedVolts.getAsDouble();
@@ -136,11 +132,11 @@ public class SparkMaxSimModule extends Module{
 
     Status.OdometryLinearPositionsRadians =
       LINEAR_QUEUE.stream()
-        .mapToDouble((Double value) -> Units.rotationsToRadians(value) / CONSTANTS.ROTATION_GEAR_RATIO)
+        .mapToDouble((Double value) -> Units.rotationsToRadians(value) / Measurements.ROTATION_GEAR_RATIO)
         .toArray();
     Status.OdometryAzimuthPositions =
       ROTATIONAL_QUEUE.stream()
-        .map((Double value) -> Rotation2d.fromRotations(value / CONSTANTS.LINEAR_GEAR_RATIO))
+        .map((Double value) -> Rotation2d.fromRotations(value / Measurements.LINEAR_GEAR_RATIO))
         .toArray(Rotation2d[]::new);
   }
 

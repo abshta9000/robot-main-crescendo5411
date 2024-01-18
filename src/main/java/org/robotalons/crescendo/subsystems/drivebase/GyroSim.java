@@ -4,9 +4,6 @@ package org.robotalons.crescendo.subsystems.drivebase;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-
-import com.ctre.phoenix6.hardware.Pigeon2;
-
 import org.robotalons.crescendo.Constants.Simulation;
 import org.robotalons.lib.motion.sensors.Gyroscope;
 
@@ -25,7 +22,6 @@ import java.util.function.DoubleSupplier;
  */
 public class GyroSim extends Gyroscope {
   // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
-  private final Pigeon2 GYROSCOPE = new Pigeon2(Constants.Ports.GYROSCOPE_ID);
 
   // Since this is a simulation, I am not able to replicate the status signal
   // Substitue would be a double supplier
