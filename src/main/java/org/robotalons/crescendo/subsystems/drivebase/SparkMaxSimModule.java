@@ -28,6 +28,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.DoubleSupplier;
 import java.util.stream.IntStream;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 public class SparkMaxSimModule extends Module{
   /** Creates a new DrivebaseModuleCANSparkMax. */
 
@@ -129,6 +131,7 @@ public class SparkMaxSimModule extends Module{
 
 
     Status.LinearPositionRadians = (CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec() * Simulation.SIMULATION_LOOPPERIOD_SEC);
+
     Status.LinearVelocityRadiansSecond = CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec();
     Status.LinearAppliedVoltage = fwdAppliedVolts.getAsDouble();
 
