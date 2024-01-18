@@ -1,11 +1,9 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
-package org.robotalons.lib.odometry;
+package org.robotalons.lib.motion.utilities;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.Queue;
-import java.util.concurrent.locks.Lock;
 // ------------------------------------------------------------[Odometry Thread]-----------------------------------------------------------//
 /**
  *
@@ -15,20 +13,7 @@ import java.util.concurrent.locks.Lock;
  * @author Cody Washington
  * 
  */
-public abstract class OdometryThread<SignalType extends Object> extends Thread implements Closeable {
-  // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
-  protected static final List<Queue<Double>> QUEUES = new ArrayList<>();
-  protected final Lock ODOMETRY_LOCK;
-  // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
-  protected static Double OdometryFrequency = (250d);
-  // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
-  /**
-   * Odometry Thread Constructor.
-   * @param OdometryLocker A Re-entrance Locker for Odometry
-   */
-  protected OdometryThread(final Lock OdometryLocker) {
-    ODOMETRY_LOCK = OdometryLocker;
-  }
+public interface OdometryThread<SignalType extends Object> extends Runnable, Closeable {
   // ---------------------------------------------------------------[Abstract]--------------------------------------------------------------//
   /**
    * Registers a new signal updated at a frequency with the frequency manager.
@@ -44,14 +29,13 @@ public abstract class OdometryThread<SignalType extends Object> extends Thread i
 
   /**
    * Closes this instance and all held resources immediately, but does not render the class unusable hence forth and can be re-instantiated.
+   * @throws IOException When an Input Output operation has thrown an exception.
    */
-  public abstract void close();
+  public abstract void close() throws IOException;
 
   /**
    * Mutates the current frequency of updating the odometry
    * @param Frequency Frequency of odometry updates in Hertz
    */
-  public synchronized void setFrequency(final Double Frequency) {
-    OdometryFrequency = Frequency;
-  }
+  public abstract void set(final Double Frequency);
 }

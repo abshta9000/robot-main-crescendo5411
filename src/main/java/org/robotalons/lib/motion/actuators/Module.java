@@ -1,20 +1,16 @@
 // ----------------------------------------------------------------[Package]----------------------------------------------------------------//
-package org.robotalons.lib.motion;
+package org.robotalons.lib.motion.actuators;
 // ---------------------------------------------------------------[Libraries]---------------------------------------------------------------//
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.Closeable;
 import java.util.List;
 import java.util.Objects;
-
-import org.robotalons.crescendo.subsystems.drivebase.ModuleIOInputsAutoLogged;
-import org.robotalons.lib.motion.ModuleIO.ModuleIOInputs;
 // ----------------------------------------------------------------[Module]---------------------------------------------------------------//
 /**
  *
@@ -26,27 +22,20 @@ import org.robotalons.lib.motion.ModuleIO.ModuleIOInputs;
  * @see ModuleStatusContainer
  * 
  */
-public abstract class Module implements Closeable {
+public abstract class Module extends SubsystemBase implements Closeable {
   // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
   protected final Constants CONSTANTS;  
   // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
-  protected ModuleIO IO;
-  protected ModuleIOInputsAutoLogged Status = new ModuleIOInputsAutoLogged();  
-  protected SwerveModuleState Reference = null;
+  protected ModuleStatusContainerAutoLogged Status = new ModuleStatusContainerAutoLogged();  
+  protected SwerveModuleState Reference = new SwerveModuleState();
   protected Rotation2d Azimuth_Offset = null;
-  protected SwerveDriveOdometry Odemetry;
-
   // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
   /**
    * Common Module Constructor.
    * @param Constants Constants to derive measurements from, which contains 
    */
-  protected Module(final Constants Constants,ModuleIO IO) {
-    this.IO = IO;
+  protected Module(final Constants Constants) {
     CONSTANTS = Objects.requireNonNull(Constants);
-
-    new DifferentialDriveOdometry(Azimuth_Offset, null, null)
-    Odemetry = new SwerveDriveOdometry(null, Azimuth_Offset, null)
   }
   // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
 
@@ -80,8 +69,8 @@ public abstract class Module implements Closeable {
    * <p>Describes a given {@link Module}'s measured constants that cannot otherwise be derived through its sensors and hardware.
    */
   public static class Constants {
-    public Double LINEAR_GEAR_RATIO = (1d);
-    public Double ROTATION_GEAR_RATIO = (1d);
+    public static Double LINEAR_GEAR_RATIO = (1d);
+    public static Double ROTATION_GEAR_RATIO = (1d);
     public Double POSITION_METERS = (0d);
     public Double WHEEL_RADIUS_METERS = (1d);
     public Double AZIMUTH_ENCODER_OFFSET = (0d);
