@@ -52,7 +52,7 @@ public final class Constants {
         public static final Double ODOMETRY_FREQUENCY = (250d);
 
         public static final Double LINEAR_GEAR_RATIO = (10d);
-        public static final Double ROTATION_GEAR_RATIO = (10d);
+        public static final Double ROTATION_GEAR_RATIO = (20d);
 
         public static final Double ROBOT_MAXIMUM_ANGULAR_MOMENTUM = 
           Math.pow(ROBOT_WHEEL_DIAMETER_METERS/2,2) * // radius

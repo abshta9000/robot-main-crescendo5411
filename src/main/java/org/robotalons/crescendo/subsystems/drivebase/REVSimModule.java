@@ -118,7 +118,7 @@ public class REVSimModule extends Module{
       // lowers overshoot
       // ie 7.85 - 3.14 = 3.92
       while (RotationalAbsolutePosition > 2.0 * Math.PI) {
-        RotationalAbsolutePosition -=  Math.PI;
+        RotationalAbsolutePosition -=  Math.PI * 2;
       }
       // if (RotationalAbsolutePosition > 2.0 * Math.PI){
       //   RotationalAbsolutePosition = 0;
