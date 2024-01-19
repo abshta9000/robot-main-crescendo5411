@@ -7,10 +7,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-
-import com.ctre.phoenix.sensors.WPI_CANCoder;
-
-import org.robotalons.crescendo.subsystems.drivebase.SparkMaxSimModule.ModuleConstants;
+import org.robotalons.crescendo.subsystems.drivebase.REVSimModule.ModuleConstants;
 import org.robotalons.lib.motion.actuators.Module;
 import org.robotalons.lib.motion.sensors.Gyroscope;
 
@@ -86,7 +83,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
+              
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -120,7 +117,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
+              
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -154,7 +151,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
+              
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -188,7 +185,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
+              
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -212,12 +209,12 @@ public final class Constants {
       public static final Gyroscope GYROSCOPE = 
         new GyroSim(false,Measurements.Modules.FL.CONSTANTS.ROTATIONAL_CONTROLLER);
       public static final Module FRONT_LEFT_MODULE = 
-        new SparkMaxSimModule(Measurements.Modules.FL.CONSTANTS);     
+        new REVSimModule(Measurements.Modules.FL.CONSTANTS);     
       public static final Module FRONT_RIGHT_MODULE = 
-        new SparkMaxSimModule(Measurements.Modules.FR.CONSTANTS);             
+        new REVSimModule(Measurements.Modules.FR.CONSTANTS);             
       public static final Module REAR_LEFT_MODULE = 
-        new SparkMaxSimModule(Measurements.Modules.RL.CONSTANTS);        
+        new REVSimModule(Measurements.Modules.RL.CONSTANTS);        
       public static final Module REAR_RIGHT_MODULE = 
-        new SparkMaxSimModule(Measurements.Modules.RR.CONSTANTS);    
+        new REVSimModule(Measurements.Modules.RR.CONSTANTS);    
     }
   }

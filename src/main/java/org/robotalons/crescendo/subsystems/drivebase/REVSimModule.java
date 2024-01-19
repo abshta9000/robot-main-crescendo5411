@@ -18,7 +18,6 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 import org.robotalons.crescendo.Constants.Simulation;
 import org.robotalons.crescendo.subsystems.drivebase.Constants.Measurements;
 import org.robotalons.lib.motion.actuators.Module;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,53 +27,53 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.DoubleSupplier;
 import java.util.stream.IntStream;
 
-
-public class SparkMaxSimModule extends Module{
+// ----------------------------------------------------------[REV Controller Module]--------------------------------------------------------//
+/**
+ *
+ *
+ * <h1>REVSimModule</h1>
+ *
+ * <p>Implementation of a single swerve module unit which utilizes a Flywheel Neo sim.</p>
+ * 
+ * @see Module
+ * @see DrivebaseSubsystem
+ */
+public class REVSimModule extends Module{
   /** Creates a new DrivebaseModuleCANSparkMax. */
 
+  // --------------------------------------------------------------[Constants]--------------------------------------------------------------//
   private final ModuleConstants CONSTANTS;
   private final List<SwerveModulePosition> DELTAS;
- 
   // ds for faster response times (i think)
-  private DoubleSupplier fwdAppliedVolts;
-  private DoubleSupplier aziAppliedVolts;
-
+  private DoubleSupplier LinearAppliedVolts;
+  private DoubleSupplier RotationalAppliedVolts;
   private DoubleSupplier CurrentPosition;
-
-  private double aziRelativePositionRad = 0;
-  private double aziAbsolutePositionRad = 0;
-
   private final Lock ODOMETRY_LOCK;
   private final Queue<Double> LINEAR_QUEUE;
   private final Queue<Double> ROTATIONAL_QUEUE;  
-  // private final RelativeEncoder LINEAR_ENCODER;
-  // private final RelativeEncoder ROTATIONAL_ENCODER;
   private ReferenceType ReferenceMode;
 
+  // ---------------------------------------------------------------[Fields]----------------------------------------------------------------//
+  private double RotationalRelativePosition = 0;
+  private double RotationalAbsolutePosition = 0;
 
-  public SparkMaxSimModule(final ModuleConstants Constants) {
+  // ------------------------------------------------------------[Constructors]-------------------------------------------------------------//
+  /**
+   * REV Simulator Module Constructor
+   * @param Constants Constants of new module instance
+   * @param Measurements Constants for measurments (such as gear ratio)
+   */
+  public REVSimModule(final ModuleConstants Constants) {
     super(Constants);
     CONSTANTS = Constants;
     ReferenceMode = ReferenceType.STATE_CONTROL;
     DELTAS = new ArrayList<>();
 
-    fwdAppliedVolts = () -> 0;
-    aziAppliedVolts = () -> 0;
+    LinearAppliedVolts = () -> 0;
+    RotationalAppliedVolts = () -> 0;
     CurrentPosition = () -> 0;
 
     ODOMETRY_LOCK = new ReentrantLock();
-    // LINEAR_ENCODER = CONSTANTS.LINEAR_CONTROLLER;
-    // ROTATIONAL_ENCODER = CONSTANTS.ROTATIONAL_CONTROLLER.getEncoder();
-
-    // LINEAR_ENCODER.setPosition((0.0));
-    // LINEAR_ENCODER.setMeasurementPeriod((10));
-    // LINEAR_ENCODER.setAverageDepth((2));
-
-    // ROTATIONAL_ENCODER.setPosition((0.0));
-    // ROTATIONAL_ENCODER.setMeasurementPeriod((10));
-    // ROTATIONAL_ENCODER.setAverageDepth((2));
-
-
 
     LINEAR_QUEUE = org.robotalons.crescendo.Constants.Odometry.REV_ODOMETRY_THREAD.register(() -> (Status.LinearPositionRadians));
     ROTATIONAL_QUEUE = org.robotalons.crescendo.Constants.Odometry.REV_ODOMETRY_THREAD.register(() -> (Status.RotationalAbsolutePosition.getRadians())); 
@@ -89,7 +88,7 @@ public class SparkMaxSimModule extends Module{
     public PIDController ROTATIONAL_CONTROLLER_PID;
     public SimpleMotorFeedforward LINEAR_CONTROLLER_FEEDFORWARD;
   }
-
+  // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
   @Override
   public void close() {
     // TODO Auto-generated method stub
@@ -110,28 +109,28 @@ public class SparkMaxSimModule extends Module{
 
     // code block modified from mechanical advantage
       double angleDiffRad = CONSTANTS.ROTATIONAL_CONTROLLER.getAngularVelocityRadPerSec() * Simulation.SIMULATION_LOOPPERIOD_SEC;
-      aziRelativePositionRad += angleDiffRad;
-      aziAbsolutePositionRad += angleDiffRad;
+      RotationalRelativePosition += angleDiffRad;
+      RotationalAbsolutePosition += angleDiffRad;
       // reverses negative rotation to positive
       // ie -3.14 -> 3.14 (same position)
-      while (aziAbsolutePositionRad < 0) {
-        aziAbsolutePositionRad += 2.0 * Math.PI;
+      while (RotationalAbsolutePosition < 0) {
+        RotationalAbsolutePosition += 2.0 * Math.PI;
       }
       // lowers overshoot
       // ie 7.85 - 3.14 = 3.92
-      while (aziAbsolutePositionRad > 2.0 * Math.PI) {
-        aziAbsolutePositionRad -=  Math.PI;
+      while (RotationalAbsolutePosition > 2.0 * Math.PI) {
+        RotationalAbsolutePosition -=  Math.PI;
       }
 
-    Status.RotationalAbsolutePosition = Rotation2d.fromRadians(aziAbsolutePositionRad);
-    Status.RotationalRelativePosition = Rotation2d.fromRadians(aziRelativePositionRad);
+    Status.RotationalAbsolutePosition = Rotation2d.fromRadians(RotationalAbsolutePosition);
+    Status.RotationalRelativePosition = Rotation2d.fromRadians(RotationalRelativePosition);
     Status.RotationalVelocityRadiansSecond = CONSTANTS.ROTATIONAL_CONTROLLER.getAngularVelocityRadPerSec();
-    Status.RotationalAppliedVoltage = aziAppliedVolts.getAsDouble();
+    Status.RotationalAppliedVoltage = RotationalAppliedVolts.getAsDouble();
 
 
     Status.LinearPositionRadians = (CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec() * Simulation.SIMULATION_LOOPPERIOD_SEC);
     Status.LinearVelocityRadiansSecond = CONSTANTS.LINEAR_CONTROLLER.getAngularVelocityRadPerSec();
-    Status.LinearAppliedVoltage = fwdAppliedVolts.getAsDouble();
+    Status.LinearAppliedVoltage = LinearAppliedVolts.getAsDouble();
 
     Status.OdometryLinearPositionsRadians =
       LINEAR_QUEUE.stream()
@@ -175,7 +174,7 @@ public class SparkMaxSimModule extends Module{
     ODOMETRY_LOCK.unlock(); 
   }
 
-
+  // --------------------------------------------------------------[Mutators]---------------------------------------------------------------//
 
   @Override
   public SwerveModuleState set(SwerveModuleState Reference) {
@@ -194,7 +193,7 @@ public class SparkMaxSimModule extends Module{
    * @param Demand Demand of Voltage, relative to battery
    */
   public void setRotationVoltage(final Double Demand) {
-    aziAppliedVolts = () -> Demand;
+    RotationalAppliedVolts = () -> Demand;
     CONSTANTS.ROTATIONAL_CONTROLLER.setInputVoltage(Demand);
 
   }
@@ -204,11 +203,11 @@ public class SparkMaxSimModule extends Module{
    * @param Demand Demand of Voltage, relative to battery
    */
   public void setLinearVoltage(final Double Demand) {
-    fwdAppliedVolts = () -> Demand;
+    LinearAppliedVolts = () -> Demand;
     CONSTANTS.LINEAR_CONTROLLER.setInputVoltage(Demand);
   }
 
-  // --------------------------------------------------------------[ACESSOR METHODS]--------------------------------------------------------------
+  // --------------------------------------------------------------[Acessors]--------------------------------------------------------------//
   @Override
   public List<SwerveModulePosition> getPositionDeltas() {
     return DELTAS;
