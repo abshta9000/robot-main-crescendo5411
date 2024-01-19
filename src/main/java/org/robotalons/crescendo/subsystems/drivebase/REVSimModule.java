@@ -61,7 +61,6 @@ public class REVSimModule extends Module{
   /**
    * REV Simulator Module Constructor
    * @param Constants Constants of new module instance
-   * @param Measurements Constants for measurments (such as gear ratio)
    */
   public REVSimModule(final ModuleConstants Constants) {
     super(Constants);
@@ -91,14 +90,14 @@ public class REVSimModule extends Module{
   // ---------------------------------------------------------------[Methods]---------------------------------------------------------------//
   @Override
   public void close() {
-    // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'close'");
+    LINEAR_QUEUE.clear();
+    ROTATIONAL_QUEUE.clear();
   }
 
   @Override
   public void cease() {
-    // TODO Auto-generated method stub
-    // // throw new UnsupportedOperationException("Unimplemented method 'cease'");
+    CONSTANTS.LINEAR_CONTROLLER.setState((0d));
+    CONSTANTS.ROTATIONAL_CONTROLLER.setState((0d));
   }
 
   @Override
@@ -121,6 +120,12 @@ public class REVSimModule extends Module{
       while (RotationalAbsolutePosition > 2.0 * Math.PI) {
         RotationalAbsolutePosition -=  Math.PI;
       }
+      // if (RotationalAbsolutePosition > 2.0 * Math.PI){
+      //   RotationalAbsolutePosition = 0;
+      //   // System.out.println(RotationalAbsolutePosition / Simulation.SIMULATION_LOOPPERIOD_SEC);
+      //   CONSTANTS.ROTATIONAL_CONTROLLER.setState(RotationalAbsolutePosition / Simulation.SIMULATION_LOOPPERIOD_SEC);
+      //   System.out.println(CONSTANTS.ROTATIONAL_CONTROLLER.getAngularVelocityRadPerSec() * Simulation.SIMULATION_LOOPPERIOD_SEC);
+      // }
 
     Status.RotationalAbsolutePosition = Rotation2d.fromRadians(RotationalAbsolutePosition);
     Status.RotationalRelativePosition = Rotation2d.fromRadians(RotationalRelativePosition);
@@ -220,7 +225,8 @@ public class REVSimModule extends Module{
 
   @Override
   public Rotation2d getAbsoluteRotation() {
-    return Rotation2d.fromDegrees(CONSTANTS.ABSOLUTE_ENCODER.getAbsolutePosition());
+    // System.out.println(Rotation2d.fromRadians(RotationalAbsolutePosition));
+    return Rotation2d.fromRadians(RotationalAbsolutePosition);
   }
 
   public Double getLinearPositionRads() {

@@ -99,7 +99,7 @@ public final class Constants {
       public static final PilotProfile PROFILE = new PilotProfile(("Jim Sim"))
         .addPreference(PreferenceNames.TRANSLATIONAL_X_INPUT, () -> -CONTROLLER.getRawAxis((1)))
         .addPreference(PreferenceNames.TRANSLATIONAL_Y_INPUT, () -> -CONTROLLER.getRawAxis((0)))
-        .addPreference(PreferenceNames.ORIENTATION_INPUT, () -> CONTROLLER.getRawAxis((2)))
+        .addPreference(PreferenceNames.ORIENTATION_INPUT, () -> -CONTROLLER.getRawAxis((2)))
         .addPreference(PreferenceNames.TRANSLATIONAL_X_DEADZONE, () -> (0.1))
         .addPreference(PreferenceNames.TRANSLATIONAL_Y_DEADZONE, () -> (0.1))
         .addPreference(PreferenceNames.ORIENTATION_DEADZONE, () -> (0.1))

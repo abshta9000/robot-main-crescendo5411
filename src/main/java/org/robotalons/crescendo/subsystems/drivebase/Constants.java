@@ -11,6 +11,8 @@ import org.robotalons.crescendo.subsystems.drivebase.REVSimModule.ModuleConstant
 import org.robotalons.lib.motion.actuators.Module;
 import org.robotalons.lib.motion.sensors.Gyroscope;
 
+import com.ctre.phoenix.sensors.WPI_CANCoder;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -62,7 +64,7 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (0);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (1);
             public static final Integer ABSOLUTE_ENCODER_ID = (8);
-            public static final Double ROTATIONAL_P_GAIN = (.075d);
+            public static final Double ROTATIONAL_P_GAIN = (.5d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
             public static final Double LINEAR_P_GAIN = (.001d);
@@ -83,7 +85,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              
+              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -96,7 +98,7 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (2);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (3);
             public static final Integer ABSOLUTE_ENCODER_ID = (9);
-            public static final Double ROTATIONAL_P_GAIN = (.075d);
+            public static final Double ROTATIONAL_P_GAIN = (.5d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
             public static final Double LINEAR_P_GAIN = (.001d);
@@ -117,7 +119,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              
+              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -130,7 +132,7 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (4);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (5);
             public static final Integer ABSOLUTE_ENCODER_ID = (10);
-            public static final Double ROTATIONAL_P_GAIN = (.075d);
+            public static final Double ROTATIONAL_P_GAIN = (.5d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
             public static final Double LINEAR_P_GAIN = (.001d);
@@ -151,7 +153,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              
+              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
@@ -164,7 +166,7 @@ public final class Constants {
             public static final Integer LINEAR_CONTROLLER_ID = (6);
             public static final Integer ROTATIONAL_CONTROLLER_ID = (7);
             public static final Integer ABSOLUTE_ENCODER_ID = (11);
-            public static final Double ROTATIONAL_P_GAIN = (.075d);
+            public static final Double ROTATIONAL_P_GAIN = (.5d);
             public static final Double ROTATIONAL_I_GAIN = (0d);
             public static final Double ROTATIONAL_D_GAIN = (0d);
             public static final Double LINEAR_P_GAIN = (.001d);
@@ -185,7 +187,7 @@ public final class Constants {
                 Measurements.ROTATION_GEAR_RATIO, // gearing
                 Measurements.ROBOT_MAXIMUM_ANGULAR_MOMENTUM / Measurements.ROBOT_MAXIMUM_ANGULAR_VELOCITY // moment of inertia
               );
-              
+              CONSTANTS.ABSOLUTE_ENCODER = new WPI_CANCoder(ABSOLUTE_ENCODER_ID);
               CONSTANTS.LINEAR_CONTROLLER_PID = new PIDController(LINEAR_P_GAIN, LINEAR_I_GAIN, LINEAR_D_GAIN);
               CONSTANTS.ROTATIONAL_CONTROLLER_PID = new PIDController(ROTATIONAL_P_GAIN, ROTATIONAL_I_GAIN, ROTATIONAL_D_GAIN);
               CONSTANTS.LINEAR_CONTROLLER_FEEDFORWARD = new SimpleMotorFeedforward(LINEAR_KS_GAIN, LINEAR_KV_GAIN, LINEAR_KA_GAIN);
